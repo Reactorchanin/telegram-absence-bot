@@ -177,3 +177,13 @@ def get_user_display_name(user: User) -> str:
         return user.first_name
     else:
         return str(user.id)
+        
+def format_user_stats_message(username: str, count: int) -> str:
+    idx, level = get_level(count)
+    if count == 0:
+        return f"@{username} пока не прогуливал! 🎉"
+    elif level:
+        nickname = random.choice(level["nicknames"])
+        return f"@{username} — {nickname} ({count} прогулов)"
+    else:
+        return f"@{username} прогулял {count} раз"

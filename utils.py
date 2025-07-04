@@ -123,3 +123,7 @@ def get_user_display_name(user: User) -> str:
         return user.first_name
     else:
         return str(user.id) 
+#Обнова
+#Почему-то
+#Не
+#Улетает

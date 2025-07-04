@@ -8,7 +8,7 @@ from storage import StatsStorage
 from utils import (
     extract_user_from_message, 
     format_absence_message, 
-    #format_stats_message,
+    format_stats_by_levels,
     format_user_stats_message,
     is_admin,
     get_user_display_name
@@ -54,7 +54,7 @@ async def handle_stats_command(message: Message):
         stats = storage.get_all_stats()
         
         # Форматируем и отправляем ответ
-        response = format_stats_message(stats)
+        response = format_stats_by_levels(stats)
         await message.reply(response)
         
         logger.info(f"Статистика запрошена пользователем {message.from_user.id}")
@@ -134,4 +134,4 @@ async def handle_help_command(message: Message):
 """
     
     await message.reply(help_text) 
-       # обновление для гита
+       

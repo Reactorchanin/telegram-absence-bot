@@ -134,3 +134,4 @@ async def handle_help_command(message: Message):
 """
     
     await message.reply(help_text) 
+       # обновление для гита

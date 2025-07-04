@@ -27,7 +27,7 @@ async def handle_absence_command(message: Message):
         
         if not user_info:
             await message.reply(
-                "❌ Укажите пользователя через @username или ответьте на его сообщение командой /непришел"
+                "❌ Укажи прогульщика через @username , придурок или на его сообщение ответь с командой /непришел"
             )
             return
         
@@ -40,11 +40,11 @@ async def handle_absence_command(message: Message):
         response = format_absence_message(username, count)
         await message.reply(response)
         
-        logger.info(f"Прогул засчитан: {username} ({user_id}) - {count}")
+        logger.info(f"Проёб засчитан: {username} ({user_id}) - {count}")
         
     except Exception as e:
-        logger.error(f"Ошибка при обработке команды непришел: {e}")
-        await message.reply("❌ Произошла ошибка при обработке команды")
+        logger.error(f"Какая-то хуйня при обработке команды непришел: {e}")
+        await message.reply("❌ Произошла какая-то ебала при обработке команды")
 
 @router.message(Command("стата", "stats"))
 async def handle_stats_command(message: Message):
@@ -57,11 +57,11 @@ async def handle_stats_command(message: Message):
         response = format_stats_by_levels(stats)
         await message.reply(response)
         
-        logger.info(f"Статистика запрошена пользователем {message.from_user.id}")
+        logger.info(f"Статистику узнать захотел? {message.from_user.id}")
         
     except Exception as e:
-        logger.error(f"Ошибка при обработке команды стата: {e}")
-        await message.reply("❌ Произошла ошибка при получении статистики")
+        logger.error(f"Проебал код команды стата: {e}")
+        await message.reply("❌ Наебалась твоя статистика")
 
 @router.message(Command("сколько"))
 async def handle_user_stats_command(message: Message):
@@ -72,7 +72,7 @@ async def handle_user_stats_command(message: Message):
         
         if not user_info:
             await message.reply(
-                "❌ Укажите пользователя через @username или ответьте на его сообщение командой /сколько"
+                "❌ Укажи проёбщика через @username или ответь на его высер командой /сколько"
             )
             return
         
@@ -85,11 +85,11 @@ async def handle_user_stats_command(message: Message):
         response = format_user_stats_message(username, count)
         await message.reply(response)
         
-        logger.info(f"Статистика пользователя запрошена: {username} ({user_id}) - {count}")
+        logger.info(f"Этот придурок проебался: {username} ({user_id}) - {count}")
         
     except Exception as e:
-        logger.error(f"Ошибка при обработке команды сколько: {e}")
-        await message.reply("❌ Произошла ошибка при получении статистики пользователя")
+        logger.error(f"Объёб при обработке команды сколько: {e}")
+        await message.reply("❌ Произошла хуйня при получении статистики кончелыги")
 
 @router.message(Command("resetstats"))
 async def handle_reset_stats_command(message: Message):
@@ -97,19 +97,19 @@ async def handle_reset_stats_command(message: Message):
     try:
         # Проверяем права администратора
         if not is_admin(message.from_user):
-            await message.reply("❌ У вас нет прав для выполнения этой команды")
+            await message.reply("❌ Ты чо, самый умный что ли?")
             return
         
         # Сбрасываем статистику
         storage.reset_stats()
         
-        await message.reply("✅ Статистика прогулов сброшена")
+        await message.reply("✅ Выдохнули, ебалай на админе просрал все данные о прогулах")
         
-        logger.info(f"Статистика сброшена администратором {message.from_user.id}")
+        logger.info(f"Статистика послана нахуй администратором {message.from_user.id}")
         
     except Exception as e:
-        logger.error(f"Ошибка при сбросе статистики: {e}")
-        await message.reply("❌ Произошла ошибка при сбросе статистики")
+        logger.error(f"Ошибка при просере статистики: {e}")
+        await message.reply("❌ Произошла ошибка при сбросе статистического говна на вентилятор")
 
 @router.message(Command("help", "помощь"))
 async def handle_help_command(message: Message):

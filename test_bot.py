@@ -7,7 +7,7 @@
 import json
 import sys
 from storage import StatsStorage
-from utils import format_absence_message, format_stats_message, format_user_stats_message
+from utils import format_absence_message, format_stats_by_levels, format_user_stats_message
 
 def test_storage():
     """Тестирует функционал хранения данных"""
@@ -74,14 +74,14 @@ def test_formatting():
     # Тест форматирования статистики
     print("\n2. Тест форматирования статистики:")
     test_stats = {"vasya": 3, "petya": 1, "masha": 2}
-    stats_message = format_stats_message(test_stats)
+    stats_message = format_stats_by_levels(test_stats)
     print("   Статистика:")
     for line in stats_message.split('\n'):
         if line.strip():
             print(f"   {line}")
     
     # Тест пустой статистики
-    empty_stats = format_stats_message({})
+    empty_stats = format_stats_by_levels({})
     print(f"   Пустая статистика: {empty_stats}")
     
     # Тест статистики пользователя
@@ -113,7 +113,7 @@ def test_example_data():
             print(f"   @{username}: {count}")
         
         # Форматируем статистику
-        stats_message = format_stats_message(example_data)
+        stats_message = format_stats_by_levels(example_data)
         print("\n   Отформатированная статистика:")
         for line in stats_message.split('\n'):
             if line.strip():

@@ -8,7 +8,7 @@ from storage import StatsStorage
 from utils import (
     extract_user_from_message, 
     format_absence_message, 
-    format_stats_message,
+    #format_stats_message,
     format_user_stats_message,
     is_admin,
     get_user_display_name

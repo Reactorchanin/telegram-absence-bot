@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 from typing import Dict, Optional
 from config import STATS_FILE
 
@@ -9,7 +10,12 @@ class StatsStorage:
     """Класс для работы с хранением статистики прогулов"""
     
     def __init__(self, filename: str = STATS_FILE):
+        # Создаем папку для файла, если её нет
+        directory = os.path.dirname(filename)
+        if directory:
+            os.makedirs(directory, exist_ok=True)
         self.filename = filename
+        logger.info(f"Инициализация storage с файлом: {self.filename}")
         self.stats = self._load_stats()
     
     def _load_stats(self) -> Dict[str, int]:
@@ -29,11 +35,12 @@ class StatsStorage:
     def _save_stats(self):
         """Сохраняет статистику в файл"""
         try:
+            logger.info(f"Сохраняем статистику в файл: {self.filename}")
             with open(self.filename, 'w', encoding='utf-8') as f:
                 json.dump(self.stats, f, ensure_ascii=False, indent=2)
-            logger.info("Статистика сохранена")
+            logger.info(f"Статистика сохранена успешно. Пользователей: {len(self.stats)}")
         except Exception as e:
-            logger.error(f"Ошибка при сохранении статистики: {e}")
+            logger.error(f"Ошибка при сохранении статистики в {self.filename}: {e}")
     
     def add_absence(self, user_id: str, username: str = None) -> int:
         """Добавляет прогул пользователю и возвращает новое количество"""

@@ -22,10 +22,10 @@ def setup_logging():
 
 async def set_bot_commands(bot: Bot):
     commands = [
-        BotCommand(command="непришел", description="Засчитать прогул пользователю"),
-        BotCommand(command="снял", description="Снять прогул (только для админов)"),
-        BotCommand(command="стата", description="Показать статистику всех прогульщиков"),
-        BotCommand(command="сколько", description="Показать статистику пользователя"),
+        BotCommand(command="neprishel", description="Засчитать прогул пользователю"),
+        BotCommand(command="snyal", description="Снять прогул (только для админов)"),
+        BotCommand(command="stats", description="Показать статистику всех прогульщиков"),
+        BotCommand(command="skolko", description="Показать статистику пользователя"),
         BotCommand(command="resetstats", description="Сбросить всю статистику (только для админов)"),
         BotCommand(command="help", description="Показать справку")
     ]
@@ -43,7 +43,7 @@ async def main():
         return
     
     # Создаём объекты бота и диспетчера
-    bot = Bot(token=BOT_TOKEN, parse_mode=ParseMode.HTML)
+    bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher()
     
     # Регистрируем роутеры

@@ -47,7 +47,7 @@ async def handle_absence_command(message: Message):
         logger.error(f"Какая-то хуйня при обработке команды непришел: {e}")
         await message.reply("❌ Произошла какая-то ебала при обработке команды")
 
-@router.message(Command("снял"))
+@router.message(Command("снял", "snyal"))
 async def handle_remove_absence_command(message: Message):
     """Обработчик команды /снял для снятия прогула (только для админов)"""
     try:
@@ -95,7 +95,7 @@ async def handle_stats_command(message: Message):
         logger.error(f"Проебал код команды стата: {e}")
         await message.reply("❌ Наебалась твоя статистика")
 
-@router.message(Command("сколько"))
+@router.message(Command("сколько", "skolko"))
 async def handle_user_stats_command(message: Message):
     """Обработчик команды /сколько для получения статистики конкретного пользователя"""
     try:

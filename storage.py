@@ -87,5 +87,5 @@ class StatsStorage:
         if user_id in self.stats:
             return {user_id: self.stats[user_id]}
         return None 
-        #удалить после обновы гитхаба
+        #удалить
         

@@ -3,6 +3,7 @@ import logging
 import sys
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
+from aiogram.types import BotCommand
 
 from config import BOT_TOKEN, LOG_FILE
 from handlers import router
@@ -18,6 +19,17 @@ def setup_logging():
             logging.StreamHandler(sys.stdout)
         ]
     )
+
+async def set_bot_commands(bot: Bot):
+    commands = [
+        BotCommand(command="непришел", description="Засчитать прогул пользователю"),
+        BotCommand(command="снял", description="Снять прогул (только для админов)"),
+        BotCommand(command="стата", description="Показать статистику всех прогульщиков"),
+        BotCommand(command="сколько", description="Показать статистику пользователя"),
+        BotCommand(command="resetstats", description="Сбросить всю статистику (только для админов)"),
+        BotCommand(command="help", description="Показать справку")
+    ]
+    await bot.set_my_commands(commands)
 
 async def main():
     """Основная функция запуска бота"""
@@ -42,6 +54,7 @@ async def main():
     async def on_startup():
         logger.info("🚀 Бот запущен!")
         logger.info("📊 Бот для учёта прогулов готов к работе")
+        await set_bot_commands(bot)
     
     # Обработчик остановки
     @dp.shutdown()
@@ -67,3 +80,4 @@ if __name__ == "__main__":
         print("\n⏹️ Бот остановлен пользователем")
     except Exception as e:
         print(f"❌ Критическая ошибка: {e}") 
+        #лол

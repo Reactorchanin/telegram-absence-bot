@@ -1,3 +1,4 @@
+#123
 import logging
 from aiogram import Router, F
 from aiogram.types import Message
@@ -17,7 +18,11 @@ from utils import (
 
 logger = logging.getLogger(__name__)
 router = Router()
+
+# Создаем storage с логированием
+logger.info("🔧 Создаем экземпляр StatsStorage...")
 storage = StatsStorage()
+logger.info("✅ StatsStorage создан успешно")
 
 @router.message(Command("непришел", "neprishel"))
 async def handle_absence_command(message: Message):

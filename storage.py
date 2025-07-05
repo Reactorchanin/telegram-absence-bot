@@ -46,6 +46,21 @@ class StatsStorage:
         logger.info(f"Добавлен прогул для {username or user_id}: {self.stats[user_id]}")
         return self.stats[user_id]
     
+    def remove_absence(self, user_id: str) -> bool:
+        """Снимает прогул пользователю и возвращает True если успешно"""
+        if user_id not in self.stats or self.stats[user_id] <= 0:
+            return False
+        
+        self.stats[user_id] -= 1
+        
+        # Если прогулов стало 0, удаляем пользователя из статистики
+        if self.stats[user_id] == 0:
+            del self.stats[user_id]
+        
+        self._save_stats()
+        logger.info(f"Снят прогул для {user_id}: {self.stats.get(user_id, 0)}")
+        return True
+    
     def get_absences(self, user_id: str) -> int:
         """Возвращает количество прогулов пользователя"""
         return self.stats.get(user_id, 0)
@@ -65,3 +80,5 @@ class StatsStorage:
         if user_id in self.stats:
             return {user_id: self.stats[user_id]}
         return None 
+        #удалить после обновы гитхаба
+        

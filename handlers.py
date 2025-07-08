@@ -1,4 +1,4 @@
-#1234567
+#12345678
 import logging
 from aiogram import Router, F
 from aiogram.types import Message, FSInputFile, Document
@@ -38,10 +38,12 @@ def load_tusa_info_from_file():
     global _current_tusa_info
     if not os.path.exists(TUSA_FILE):
         _current_tusa_info = None
+        logger.info(f"Файл тусовки {TUSA_FILE} не найден при запуске.")
     else:
         with open(TUSA_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
             _current_tusa_info = data.get("info", None)
+        logger.info(f"Загружена инфа о тусовке: {_current_tusa_info}")
 
 # При старте файла — автозагрузка инфы о тусовке
 load_tusa_info_from_file()

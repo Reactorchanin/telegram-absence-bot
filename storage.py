@@ -1,4 +1,4 @@
-#12
+#123
 import json
 import logging
 import os
@@ -16,15 +16,16 @@ class StatsStorage:
         if directory:
             os.makedirs(directory, exist_ok=True)
         self.filename = filename
-        logger.info(f"Инициализация storage с файлом: {self.filename}")
+        logger.info(f"Загружаем статистику из файла: {self.filename}")
         self.stats = self._load_stats()
+        logger.info(f"Загружено пользователей: {len(self.stats)}")
     
     def _load_stats(self) -> Dict[str, int]:
         """Загружает статистику из файла"""
         try:
             with open(self.filename, 'r', encoding='utf-8') as f:
                 stats = json.load(f)
-                logger.info(f"Загружена статистика: {len(stats)} пользователей")
+                logger.info(f"Загружена статистика: {len(stats)} пользователей, данные: {stats}")
                 return stats
         except FileNotFoundError:
             logger.info("Файл статистики не найден, создаём новый")

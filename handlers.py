@@ -1,4 +1,4 @@
-#12345
+#123456
 import logging
 from aiogram import Router, F
 from aiogram.types import Message, FSInputFile, Document
@@ -267,8 +267,12 @@ async def handle_tusa_command(message: Message):
 async def handle_tusa_info_command(message: Message):
     info = load_tusa_info()
     await message.reply(f"📢 Актуальная тусовка:\n{info}")
+
+@router.message(Command("придешь", "pridesh"))
+async def handle_tusa_poll_command(message: Message):
+    info = load_tusa_info()
     await message.answer_poll(
-        question="Ты придёшь на тусовку?",
+        question=f"Ты придёшь на тусовку?\n{info}",
         options=["Буду", "Не буду"],
         is_anonymous=False
     ) 

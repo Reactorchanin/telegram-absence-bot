@@ -29,6 +29,7 @@ async def set_bot_commands(bot: Bot):
         BotCommand(command="skolko", description="Показать статистику пользователя"),
         BotCommand(command="resetstats", description="Сбросить всю статистику (только для админов)"),
         BotCommand(command="help", description="Показать справку")
+        BotCommand(command="tusainfo", description="Узнать где тусовка")
     ]
     await bot.set_my_commands(commands)
 

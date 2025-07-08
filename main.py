@@ -1,25 +1,24 @@
-#12
-import asyncio
+#1
 import logging
 import sys
+
+# Настройка логирования СРАЗУ, до всех импортов
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("bot.log", encoding='utf-8'),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+
+import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
 
 from config import BOT_TOKEN, LOG_FILE
 from handlers import router, storage, get_tusa_info, set_tusa_info, TUSA_FILE
-
-# Настройка логирования
-def setup_logging():
-    """Настраивает логирование"""
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        handlers=[
-            logging.FileHandler(LOG_FILE, encoding='utf-8'),
-            logging.StreamHandler(sys.stdout)
-        ]
-    )
 
 async def set_bot_commands(bot: Bot):
     commands = [
@@ -35,8 +34,6 @@ async def set_bot_commands(bot: Bot):
 
 async def main():
     """Основная функция запуска бота"""
-    # Настраиваем логирование
-    setup_logging()
     logger = logging.getLogger(__name__)
     
     # Проверяем наличие токена

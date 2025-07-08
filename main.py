@@ -1,4 +1,4 @@
-#1
+#12
 import asyncio
 import logging
 import sys
@@ -7,7 +7,7 @@ from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
 
 from config import BOT_TOKEN, LOG_FILE
-from handlers import router
+from handlers import router, storage, get_tusa_info, set_tusa_info, TUSA_FILE
 
 # Настройка логирования
 def setup_logging():
@@ -67,6 +67,15 @@ async def main():
     @dp.shutdown()
     async def on_shutdown():
         logger.info("🛑 Бот остановлен")
+        # Сохраняем статистику
+        storage.save_stats_to_file()
+        logger.info("✅ Статистика сохранена при завершении работы.")
+        # Сохраняем инфу о тусовке
+        info = get_tusa_info()
+        with open(TUSA_FILE, "w", encoding="utf-8") as f:
+            import json
+            json.dump({"info": info}, f, ensure_ascii=False)
+        logger.info("✅ Информация о тусовке сохранена при завершении работы.")
     
     try:
         # Запускаем бота

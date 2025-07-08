@@ -1,4 +1,4 @@
-#123456
+#1234567
 import logging
 from aiogram import Router, F
 from aiogram.types import Message, FSInputFile, Document
@@ -21,16 +21,30 @@ from config import STATS_FILE
 
 TUSA_FILE = "tusa_info.json"
 
-def save_tusa_info(text: str):
+# Глобальная переменная для инфы о тусовке
+_current_tusa_info = None
+
+def set_tusa_info(text: str):
+    global _current_tusa_info
+    _current_tusa_info = text
     with open(TUSA_FILE, "w", encoding="utf-8") as f:
         json.dump({"info": text}, f, ensure_ascii=False)
 
-def load_tusa_info() -> str:
+def get_tusa_info() -> str:
+    global _current_tusa_info
+    return _current_tusa_info or "Информация о тусовке не найдена."
+
+def load_tusa_info_from_file():
+    global _current_tusa_info
     if not os.path.exists(TUSA_FILE):
-        return "Информация о тусовке не найдена."
-    with open(TUSA_FILE, "r", encoding="utf-8") as f:
-        data = json.load(f)
-        return data.get("info", "Информация о тусовке не найдена.")
+        _current_tusa_info = None
+    else:
+        with open(TUSA_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            _current_tusa_info = data.get("info", None)
+
+# При старте файла — автозагрузка инфы о тусовке
+load_tusa_info_from_file()
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -260,17 +274,17 @@ async def handle_tusa_command(message: Message):
     if not text:
         await message.reply("Напиши после команды место и время тусовки, например:\n/туса Сегодня в 19:00, парк Горького")
         return
-    save_tusa_info(text)
+    set_tusa_info(text)
     await message.reply("Информация о тусовке сохранена!")
 
 @router.message(Command("гдетуса", "tusainfo"))
 async def handle_tusa_info_command(message: Message):
-    info = load_tusa_info()
+    info = get_tusa_info()
     await message.reply(f"📢 Актуальная тусовка:\n{info}")
 
 @router.message(Command("придешь", "pridesh"))
 async def handle_tusa_poll_command(message: Message):
-    info = load_tusa_info()
+    info = get_tusa_info()
     await message.answer_poll(
         question=f"Ты придёшь на тусовку?\n{info}",
         options=["Буду", "Не буду"],

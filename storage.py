@@ -1,4 +1,4 @@
-#1
+#12
 import json
 import logging
 import os
@@ -89,4 +89,12 @@ class StatsStorage:
             return {user_id: self.stats[user_id]}
         return None 
         #удалить
+    
+    def save_stats_to_file(self):
+        """Явно сохраняет текущую статистику в файл"""
+        self._save_stats()
+
+    def load_stats_from_file(self):
+        """Явно загружает статистику из файла в память"""
+        self.stats = self._load_stats() 
         

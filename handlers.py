@@ -1,4 +1,4 @@
-#12345678
+#123456789
 import logging
 from aiogram import Router, F
 from aiogram.types import Message, FSInputFile, Document
@@ -6,6 +6,8 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 import os
 import json
+
+logger = logging.getLogger(__name__)
 
 from storage import StatsStorage
 from utils import (
@@ -48,7 +50,6 @@ def load_tusa_info_from_file():
 # При старте файла — автозагрузка инфы о тусовке
 load_tusa_info_from_file()
 
-logger = logging.getLogger(__name__)
 router = Router()
 
 # Создаем storage с логированием

@@ -1,10 +1,11 @@
-#1234
+#12345
 import logging
 from aiogram import Router, F
 from aiogram.types import Message, FSInputFile, Document
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 import os
+import json
 
 from storage import StatsStorage
 from utils import (
@@ -17,6 +18,19 @@ from utils import (
     get_user_display_name
 )
 from config import STATS_FILE
+
+TUSA_FILE = "tusa_info.json"
+
+def save_tusa_info(text: str):
+    with open(TUSA_FILE, "w", encoding="utf-8") as f:
+        json.dump({"info": text}, f, ensure_ascii=False)
+
+def load_tusa_info() -> str:
+    if not os.path.exists(TUSA_FILE):
+        return "Информация о тусовке не найдена."
+    with open(TUSA_FILE, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        return data.get("info", "Информация о тусовке не найдена.")
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -235,4 +249,27 @@ async def handle_help_command(message: Message):
 """
     
     await message.reply(help_text) 
+       
+
+@router.message(Command("туса", "tusa"))
+async def handle_tusa_command(message: Message):
+    if not message.text:
+        await message.reply("Напиши после команды место и время тусовки, например:\n/туса Сегодня в 19:00, парк Горького")
+        return
+    text = message.text.partition(" ")[2].strip()
+    if not text:
+        await message.reply("Напиши после команды место и время тусовки, например:\n/туса Сегодня в 19:00, парк Горького")
+        return
+    save_tusa_info(text)
+    await message.reply("Информация о тусовке сохранена!")
+
+@router.message(Command("гдетуса", "tusainfo"))
+async def handle_tusa_info_command(message: Message):
+    info = load_tusa_info()
+    await message.reply(f"📢 Актуальная тусовка:\n{info}")
+    await message.answer_poll(
+        question="Ты придёшь на тусовку?",
+        options=["Буду", "Не буду"],
+        is_anonymous=False
+    ) 
        
